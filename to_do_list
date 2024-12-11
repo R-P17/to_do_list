@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div class="myinput">
+    <input id="inputtext" type="text" style="padding:10px;" />
+</div>
+
+<div class="buttons" style="display:flex; flex-wrap:wrap; margin-top:15px;">
+    <span onclick="submitfunction()" style="margin-right:20px;">Submit</span>
+    <span onclick="clearfunction()">Clear All</span>
+</div>
+
+<div class="choise" style="display:flex; flex-wrap:wrap; margin-top:15px;">
+    <span class="all" onclick="allfunction()" style="margin-right:20px;">All</span>
+    <span onclick="pendingfunction()" style="margin-right:20px;">Pending</span>
+    <span onclick="completefunction()">Complete</span>
+</div>
+<p id="allresult"></p>
+<p id="pendingresult"></p>
+<p id="completeresult"></p>
+
+
+<script>
+const valuein = [];
+const valueinpend = [];
+
+function clearfunction(){
+    valuein.splice(0, valuein.length);
+    document.getElementById("allresult").innerHTML = '';
+    document.getElementById("pendingresult").innerHTML = '';
+    document.getElementById("completeresult").innerHTML = '';
+}
+
+function submitfunction(){
+    let inputValue = document.getElementById("inputtext").value;
+    if (inputValue.trim() !== '') { 
+        valuein.push(inputValue);
+        allfunction();
+    document.getElementById("inputtext").value = '';
+}
+
+function allfunction(){
+    let allresult = document.getElementById("allresult");
+    allresult.innerHTML = '';
+
+    for (let i = 0; i < valuein.length; i++) {
+        let addcheckbox = document.createElement("input");
+        addcheckbox.setAttribute("type", "checkbox");
+        addcheckbox.setAttribute("id", "checkbox" + i);
+
+        let textNode = document.createTextNode(valuein[i]);
+
+        allresult.appendChild(addcheckbox);
+        allresult.appendChild(textNode);
+        allresult.appendChild(document.createElement("br"));
+    }
+}
+
+function pendingfunction(){
+    let pend = document.getElementById("pendingresult");
+    pend.innerHTML = ''; // Καθαρισμός προηγούμενου περιεχομένου
+
+    for (let i = 0; i < valuein.length; i++) {
+        let checkbox = document.getElementById("checkbox" + i);
+        if (!checkbox.checked) {
+            let textNode = document.createTextNode(valuein[i]);
+            pend.appendChild(textNode);
+            pend.appendChild(document.createElement("br"));
+        }
+    }
+}
+
+function completefunction(){
+    let complete = document.getElementById("completeresult");
+    complete.innerHTML = '';
+
+    for (let i = 0; i < valuein.length; i++) {
+        let checkbox = document.getElementById("checkbox" + i);
+        // Μόνο εμφάνιση των τικαρισμένων στοιχείων
+        if (checkbox.checked) {
+            let textNode = document.createTextNode(valuein[i]);
+            complete.appendChild(textNode);
+            complete.appendChild(document.createElement("br"));
+        }
+    }
+}
+</script>
+
+</body>
+</html>
